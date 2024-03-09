@@ -1,0 +1,11 @@
+{
+  "extends": ["stylelint-rscss/config", "stylelint-8-point-grid"],
+  "customSyntax": "postcss-scss",
+  "rules": {
+    "plugin/8-point-grid": {
+      "base": 8,
+      "allowlist": ["12px", "4px", "2px", "1px"],
+      "ignorelist": ["width", "height", "top", "left", "bottom", "right"]
+    }
+  }
+}
