@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.scss";
 
+import { Button } from 'antd';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -63,6 +65,7 @@ export default function Home() {
             <p>
               Find in-depth information about Next.js features and&nbsp;API.
             </p>
+            <Button type="primary">Button</Button>
           </a>
 
           <a
