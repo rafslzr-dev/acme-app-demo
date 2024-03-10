@@ -2,7 +2,7 @@ import React from 'react';
 import { ConfigProvider } from 'antd';
 import type { AppProps } from 'next/app';
 
-import theme from '@/styles/themeConfig';
+import theme from '@/styles/theme';
 
 const App = ({ Component, pageProps }: AppProps) => (
   <ConfigProvider theme={theme}>
