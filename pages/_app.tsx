@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 
 import theme from '@/styles/theme';
 
-const App = ({ Component, pageProps }: AppProps) => (
+const App = ({ Component, pageProps }: AppProps): JSX.Element => (
   <ConfigProvider theme={theme}>
     <Component {...pageProps} />
   </ConfigProvider>

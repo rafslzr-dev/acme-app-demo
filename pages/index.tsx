@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
 
-const Home = () => (
+const Home = (): JSX.Element => (
   <div className="App">
       <Space>
         <div style={{ fontSize: 14 }}>Disable algorithm: </div>
