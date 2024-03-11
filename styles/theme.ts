@@ -9,7 +9,8 @@ const AppTheme: ThemeConfig = {
   "token": {
     "colorPrimary": "#08979c",
     "colorInfo": "#006d75",
-    "colorLink": "#1677ff"
+    "colorLink": "#1677ff",
+    "fontSize": 16,
   },
   "algorithm": theme.defaultAlgorithm
 };
