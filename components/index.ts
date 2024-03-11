@@ -1,1 +1,2 @@
-export * from './NavigationMenu'
+
+export { AppLayout } from './AppLayout'
