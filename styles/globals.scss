@@ -19,9 +19,11 @@ body {
 
   &.-textarea {
     padding: 16px;
-    min-width: 520px;
+    // max-width: 520px;
+    // width: 520px;
     min-height: 80px;
     font: inherit;
+    box-sizing: border-box;
   }
 }
 

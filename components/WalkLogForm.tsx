@@ -2,15 +2,15 @@ import React from "react";
 import { Card, Space, Rate,  } from 'antd';
 import styles from '@/styles/components/WalkLogForm.module.scss'
 import classNames from 'classnames';
-import TextArea from "antd/es/input/TextArea";
 
 export const WalkLogForm: React.FC = () =>  (
   <Space direction="vertical" className={styles.container} >
-    <Card title='Dog no. 1'>
+    <Card title='Walk Log No: 1'>
       <Space.Compact className={styles.inputContainer}>
         <p className={styles.inputLabel}>Dog Name:</p>
         <input
           type='text'
+          placeholder='Dog Name'
           className={classNames('input')}
           style={{
             maxWidth: '520px'
@@ -21,6 +21,7 @@ export const WalkLogForm: React.FC = () =>  (
         <p className={styles.inputLabel}>Walk Distance:</p>
         <input
           type='number'
+          placeholder='Distance'
           className={classNames('input')}
           style={{
             maxWidth: '160px'
@@ -36,7 +37,11 @@ export const WalkLogForm: React.FC = () =>  (
       </Space.Compact>
       <Space.Compact >
         <p className={styles.inputLabel}>Notes:</p>
-        <textarea className={classNames('input -textarea')}></textarea>
+        <textarea
+          className={classNames('input -textarea')}
+          cols={64}
+          placeholder="Notes about the dog's preference and affinities"
+          ></textarea>
       </Space.Compact>
     </Card>
   </Space>

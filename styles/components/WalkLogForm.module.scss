@@ -1,5 +1,6 @@
 .container {
   width: 100%;
+  margin-bottom: 24px;
 }
 
 .inputContainer {
@@ -18,6 +19,7 @@
 .inputSuffix {
   text-align: left;
   padding-left: 16px;
+  min-width: 80px;
 }
 
 .ratingContainer {
