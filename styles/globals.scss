@@ -16,6 +16,13 @@ body {
   &.-error {
     border: 1px solid #FF4D4F;
   }
+
+  &.-textarea {
+    padding: 16px;
+    min-width: 520px;
+    min-height: 80px;
+    font: inherit;
+  }
 }
 
 p.input-label {
