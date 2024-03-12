@@ -15,7 +15,11 @@ export const Dashboard: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<InputsTypes>()
+  } = useForm<InputsTypes>({
+    defaultValues: {
+      dogCount: 1
+    }
+  })
   const router = useRouter()
 
   const onSubmit: SubmitHandler<InputsTypes> = (data): void => {
