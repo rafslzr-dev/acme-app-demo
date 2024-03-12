@@ -12,6 +12,10 @@ body {
   &.-left-radius {
     border-radius: 6px 0px 0 6px;
   }
+
+  &.-error {
+    border: 1px solid #FF4D4F;
+  }
 }
 
 p.input-label {
