@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { Card, Space, Rate,  } from 'antd';
+import { Card, Space, Rate, Tooltip, Button, Popover } from 'antd';
 import styles from '@/styles/components/WalkLogForm.module.scss'
 import classNames from 'classnames';
 import { useForm, SubmitHandler, FieldErrors } from "react-hook-form"
+import { DeleteOutlined } from '@ant-design/icons';
 
-type WalkLogFormInputTypes = {
+export type WalkLogFormInputTypes = {
   dogName: string
   walkDistance: number
   rating: number
@@ -12,20 +13,19 @@ type WalkLogFormInputTypes = {
 }
 
 interface WalkLogFormProps {
+  formTitle?: string
   callSubmit: boolean
-  setCallSubmit: (value: boolean) => void
   onError: (error: FieldErrors<WalkLogFormInputTypes>) => void
-  hasFormErrors: boolean
-  setHasFormErrors: (value: boolean) => void
   setData: (data: WalkLogFormInputTypes) => void
+  onDelete: () => void
+
 }
 
 export const WalkLogForm: React.FC<WalkLogFormProps> = ({
+  formTitle = 'Walk Log',
   callSubmit = false,
-  hasFormErrors = false,
-  setHasFormErrors = () => {},
-  setCallSubmit = () => {},
   onError = () => {},
+  onDelete = () => {},
   setData
 }) =>  {
   const {
@@ -33,15 +33,19 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
     handleSubmit,
     setValue,
     formState: { errors, isValid, isSubmitted }
-  } = useForm<WalkLogFormInputTypes>()
-
+  } = useForm<WalkLogFormInputTypes>({
+    defaultValues: {
+      dogName: 'Oreo',
+      walkDistance: 200,
+      rating: 3,
+      notes: ''
+    }
+  })
 
   const refSubmitButton = useRef<HTMLButtonElement>(null)
 
   const onSubmit: SubmitHandler<WalkLogFormInputTypes> = (data) => {
     setData(data)
-    console.log(data)
-    setHasFormErrors(false)
   }
 
   useEffect(() => {
@@ -59,30 +63,53 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
   return (
   <Space direction="vertical" className={styles.container} >
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card title='Walk Log No: 1'>
+      <Card title={formTitle} extra={
+            <Tooltip title="Delete Field">
+              <Button
+                shape="circle"
+                icon={<DeleteOutlined />}
+                danger
+                onClick={onDelete}
+                />
+            </Tooltip>
+        }>
         <Space.Compact className={styles.inputContainer}>
           <p className={styles.inputLabel}>Dog Name:</p>
-          <input
-            type='text'
-            placeholder='Dog Name'
-            className={classNames('input', !!errors.dogName && '-error')}
-            style={{
-              maxWidth: '520px'
-            }}
-            {...register('dogName', { required: true })}
-          />
+          <Popover
+            title="This field is required"
+            open={!!errors.dogName}
+            placement='right'
+            trigger='focus'
+          >
+            <input
+              type='text'
+              placeholder='Dog Name'
+              className={classNames('input', !!errors.dogName && '-error')}
+              style={{
+                maxWidth: '520px'
+              }}
+              {...register('dogName', { required: true })}
+            />
+          </Popover>
         </Space.Compact>
         <Space.Compact className={styles.inputContainer}>
           <p className={styles.inputLabel}>Walk Distance:</p>
-          <input
-            type='number'
-            placeholder='Distance'
-            className={classNames('input')}
-            style={{
-              maxWidth: '160px'
-            }}
-            {...register('walkDistance')}
-          />
+          <Popover
+            title="This field is required"
+            open={!!errors.walkDistance}
+            placement='right'
+            trigger='focus'
+          >
+            <input
+              type='number'
+              placeholder='Distance'
+              className={classNames('input')}
+              style={{
+                maxWidth: '160px'
+              }}
+              {...register('walkDistance')}
+            />
+          </Popover>
           <p className={styles.inputSuffix}>meters</p>
         </Space.Compact>
         <Space.Compact className={styles.inputContainer}>
@@ -100,6 +127,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
             className={classNames('input -textarea')}
             cols={64}
             placeholder="Notes about the dog's preference and affinities"
+            {...register('notes')}
             ></textarea>
         </Space.Compact>
       </Card>

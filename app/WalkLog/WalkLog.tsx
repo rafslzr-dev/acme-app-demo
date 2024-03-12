@@ -1,74 +1,72 @@
 import { AppLayout } from '@/components'
 import styles from './WalkLog.module.scss'
-import { WalkLogForm } from '@/components'
+import { WalkLogForm, WalkLogFormInputTypes } from '@/components'
 import { Button } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
-export const WalkLog: React.FC = () => {
+interface FormDataTypes {
+  [key: string]: WalkLogFormInputTypes
+}
+
+interface WalkLogProps {
+  generateFormCount: number
+}
+
+export const WalkLog: React.FC<WalkLogProps> = ({
+  generateFormCount = 1
+}) => {
   const [callSubmit, setCallSubmit] = useState(false)
   const [hasFormErrors, setHasFormErrors] = useState(false)
-  const [formData, setFormData] = useState({
-    form1: undefined,
-    form2: undefined,
-    form3: undefined,
-  })
+  const [isFormValid, setIsFormValid] = useState(false)
+  const [formIds, setFormIds] = useState<(keyof FormDataTypes)[]>([])
+  const [formData, setFormData] = useState<FormDataTypes>({})
+
+  // Initialize form based on count
+  useEffect(() => {
+    const generatedFormIds = Array.from({length: generateFormCount}).map(() => uuidv4())
+    setFormIds(generatedFormIds)
+  }, [])
+
+  useEffect(() => {
+    if(!callSubmit && !hasFormErrors && isFormValid) {
+      alert('success!')
+    }
+  }, [hasFormErrors, callSubmit, isFormValid])
+
+  const addForm = (): void => setFormIds([...formIds, uuidv4()])
 
   return (
     <AppLayout>
       <h2 className={styles.greetings}>Log your walks here:</h2>
-      <WalkLogForm
-        callSubmit={callSubmit}
-        setCallSubmit={setCallSubmit}
-        hasFormErrors={hasFormErrors}
-        setHasFormErrors={setHasFormErrors}
-        onError={() => {
-          setFormData({})
-          setCallSubmit(false)
-          setHasFormErrors(true)
-        }}
-        setData={(data) => {
-          setFormData({
-            ...formData,
-            form1: data
-          })
-        }}
-      />
-      <WalkLogForm
-        callSubmit={callSubmit}
-        setCallSubmit={setCallSubmit}
-        hasFormErrors={hasFormErrors}
-        setHasFormErrors={setHasFormErrors}
-        onError={() => {
-          setFormData({})
-          setCallSubmit(false)
-          setHasFormErrors(true)
-        }}
-        setData={(data) => {
-          setFormData({
-            ...formData,
-            form2: data
-          })
-        }}
-      />
-      <WalkLogForm
-        callSubmit={callSubmit}
-        setCallSubmit={setCallSubmit}
-        hasFormErrors={hasFormErrors}
-        setHasFormErrors={setHasFormErrors}
-        onError={() => {
-          setFormData({})
-          setCallSubmit(false)
-          setHasFormErrors(true)
-        }}
-        setData={(data) => {
-          console.log(formData)
-          setFormData({
-            ...formData,
-            form3: data
-          })
-        }}
-      />
+      {formIds.map((id, index) =>
+          <WalkLogForm
+            key={id}
+            formTitle={`Walk Log #${index + 1}`}
+            callSubmit={callSubmit}
+            onDelete={() => {
+              setFormIds(formIds.filter((currentId) => currentId !== id))
+            }}
+            onError={(errors) => {
+              setFormData([])
+              setCallSubmit(false)
+              setHasFormErrors(!!errors)
+            }}
+            setData={(data) => {
+              console.log(data)
+              setFormData({
+                ...formData,
+                [id]: data
+              })
+              if(formIds.length === index + 1) {
+                setCallSubmit(false)
+                setIsFormValid(true)
+              }
+              setHasFormErrors(false)
+            }}
+          />
+      )}
 
       <Button type="dashed"
         size='large'
@@ -76,8 +74,11 @@ export const WalkLog: React.FC = () => {
         icon={<PlusCircleOutlined />}
         style={{
           fontWeight: 'bold'
-        }}>
-
+        }}
+        onClick={() => {
+          addForm()
+        }}
+        >
         ADD ADDITIONAL LOG FORM
       </Button>
 
@@ -90,8 +91,7 @@ export const WalkLog: React.FC = () => {
         }}
         onClick={() => {
           setCallSubmit(true)
-        }}
-        >
+        }}>
         Submit
       </Button>
     </AppLayout>

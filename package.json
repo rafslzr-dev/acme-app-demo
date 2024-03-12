@@ -19,7 +19,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
     "react-hook-form-antd": "^1.1.0",
-    "sass": "^1.71.1"
+    "sass": "^1.71.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^9.3.4",
