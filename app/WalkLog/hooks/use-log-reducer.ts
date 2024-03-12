@@ -5,7 +5,6 @@ interface FormDataTypes {
   [key: string]: WalkLogFormInputTypes
 }
 
-
 interface LogStateTypes {
   hasFormErrors: boolean
   callSubmit: boolean
@@ -47,7 +46,7 @@ type LogStateActionsTypes =
     payload: FormDataTypes
   } | {
     type: 'ADD_FORM_DATA',
-    id: string,
+    id: keyof FormDataTypes,
     payload: WalkLogFormInputTypes
   } | {
     type: 'RESET_FORM_DATA',

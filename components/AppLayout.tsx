@@ -4,11 +4,7 @@ import styles from '@/styles/components/AppLayout.module.scss'
 
 const { Header, Content, Footer } = Layout;
 
-interface AppLayoutProps {
-  children: JSX.Element | JSX.Element[]
-}
-
-export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+export const AppLayout: React.FC = ({ children }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
