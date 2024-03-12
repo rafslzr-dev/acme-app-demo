@@ -5,6 +5,7 @@ import { Button, message } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { useEffect, useReducer } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { useRouter } from 'next/router'
 
 
 interface FormDataTypes {
@@ -128,6 +129,8 @@ export const WalkLog: React.FC<WalkLogProps> = ({
     formTouched: false
   })
 
+  const router = useRouter()
+
   const [messageApi, contextHolder] = message.useMessage();
 
   // Initialize form based on count
@@ -139,11 +142,11 @@ export const WalkLog: React.FC<WalkLogProps> = ({
     })
   }, [])
 
-  // A little bit hacky, as we're not dealing with data from the backend.
-  // The purpose of this is to showcase multi instance
+  // A little bit hacky, as we're not dealing with external data.
+  // The purpose of this is to showcase multi form instance validations.
   useEffect(() => {
     if(Object.keys(state.formData).length === state.formIds.length && state.formTouched)
-      alert('Success!')
+      router.push('/log-success')
   }, [state.formData, state.formIds, state.formTouched])
 
   return (
