@@ -115,7 +115,10 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
         <Space.Compact className={styles.inputContainer}>
           <p className={styles.inputLabel}>Walk Rating:</p>
           <div className={styles.ratingContainer}>
-            <Rate defaultValue={3} style={{ margin: 'auto'}}
+            <Rate
+              defaultValue={3}
+              style={{ margin: 'auto'}}
+              allowClear={false}
               onChange={(value) => {
               setValue('rating', value)
             }}/>
@@ -131,7 +134,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
             ></textarea>
         </Space.Compact>
       </Card>
-      <button hidden={true} ref={refSubmitButton} type={"submit"} />
+      <button hidden={true} ref={refSubmitButton} type="submit" />
     </form>
   </Space>
   )}
