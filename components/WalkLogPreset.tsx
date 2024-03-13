@@ -1,37 +1,21 @@
-import React, { useEffect, useRef } from "react";
-import { Card, Space, Rate, Tooltip, Button, Popover } from 'antd';
+import React from "react";
+import { Card, Space, Rate, Popover } from 'antd';
 import styles from '@/styles/components/WalkLogForm.module.scss'
 import classNames from 'classnames';
-import { useForm, SubmitHandler, FieldErrors } from "react-hook-form"
-import { DeleteOutlined } from '@ant-design/icons';
+import { useForm } from "react-hook-form"
 
-export type WalkLogFormInputTypes = {
+type WalkLogFormInputTypes = {
   dogName: string
   walkDistance: number
   rating: number
   notes: string
 }
 
-interface WalkLogFormProps {
-  formTitle?: string
-  callSubmit: boolean
-  onError: (error: FieldErrors<WalkLogFormInputTypes>) => void
-  setData: (data: WalkLogFormInputTypes) => void
-  onDelete: () => void
-}
-
-export const WalkLogForm: React.FC<WalkLogFormProps> = ({
-  formTitle = 'Walk Log',
-  callSubmit = false,
-  onError = () => {},
-  onDelete = () => {},
-  setData
-}) =>  {
+export const WalkLogPreset: React.FC = () =>  {
   const {
     register,
-    handleSubmit,
     setValue,
-    formState: { errors, isValid, isSubmitted }
+    formState: { errors }
   } = useForm<WalkLogFormInputTypes>({
     defaultValues: {
       dogName: 'Oreo',
@@ -41,37 +25,10 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
     }
   })
 
-  const refSubmitButton = useRef<HTMLButtonElement>(null)
-
-  const onSubmit: SubmitHandler<WalkLogFormInputTypes> = (data) => {
-    setData(data)
-  }
-
-  useEffect(() => {
-    if(callSubmit) {
-      refSubmitButton?.current?.click()
-    }
-  }, [callSubmit])
-
-  useEffect(() => {
-    if (isSubmitted && !isValid) {
-      onError(errors)
-    }
-  }, [isSubmitted, isValid])
-
   return (
   <Space direction="vertical" className={styles.container} >
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Card title={formTitle} extra={
-            <Tooltip title="Delete Field">
-              <Button
-                shape="circle"
-                icon={<DeleteOutlined />}
-                danger
-                onClick={onDelete}
-                />
-            </Tooltip>
-        }>
+    <form >
+      <Card >
         <Space.Compact className={styles.inputContainer}>
           <p className={styles.inputLabel}>Dog Name:</p>
           <Popover
@@ -133,7 +90,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
             ></textarea>
         </Space.Compact>
       </Card>
-      <button hidden={true} ref={refSubmitButton} type="submit" />
+      <button hidden={true} type="submit" />
     </form>
   </Space>
   )}

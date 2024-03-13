@@ -36,5 +36,11 @@ module.exports = {
     'utils',
     __dirname, // the root directory
   ],
+  extensionsToTreatAsEsm: [".ts"],
+    globals: {
+      "ts-jest": {
+        useESM: true
+      }
+    },
   testTimeout: 20_000,
 }
