@@ -34,6 +34,7 @@ export const WalkLog: React.FC<WalkLogProps> = ({
   // A little bit hacky, as we're not dealing with external data.
   // The purpose of this is to showcase multi form instance validations.
   useEffect(() => {
+    // When an error occur, formData should be missing some data.
     if(Object.keys(state.formData).length === state.formIds.length && state.formTouched)
       router.push('/log-success')
   }, [state.formData, state.formIds, state.formTouched])
