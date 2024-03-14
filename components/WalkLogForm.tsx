@@ -100,7 +100,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
         <Space.Compact className={styles.inputContainer}>
           <p className={styles.inputLabel}>*Walk Distance:</p>
           <Popover
-            title="This field is required"
+            title="This field is required. Only accepts value more than 0."
             open={!!errors.walkDistance}
             placement='right'
             trigger='focus'
@@ -112,7 +112,10 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
               style={{
                 maxWidth: '160px'
               }}
-              {...register('walkDistance')}
+              {...register('walkDistance', {
+                required: true,
+                validate: (value) => value > 0
+              })}
             />
           </Popover>
           <p className={styles.inputSuffix}>meters</p>
