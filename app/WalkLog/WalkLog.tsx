@@ -78,7 +78,7 @@ export const WalkLog: React.FC<WalkLogProps> = ({
             messageApi.open({
               type: 'error',
               content: 'Validation Error. Check your inputs.',
-            });
+            })
           }}
           setData={(data) => {
             dispatch({

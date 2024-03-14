@@ -1,10 +1,11 @@
-import React from "react";
-import { Card, Space, Rate, Popover, Button } from 'antd';
+import React, { useEffect } from "react";
+import { Card, Space, Rate, Popover, Button, message } from 'antd';
 import styles from '@/styles/components/WalkLogForm.module.scss'
 import classNames from 'classnames';
 import { useForm } from "react-hook-form"
+import { generatePresetArray } from '../helpers/generate-preset-array'
 
-type WalkLogFormInputTypes = {
+export type LogPresetTypes = {
   dogCount: number
   dogName: string
   walkDistance: string
@@ -16,8 +17,9 @@ export const WalkLogPreset: React.FC = () =>  {
   const {
     register,
     setValue,
-    formState: { errors }
-  } = useForm<WalkLogFormInputTypes>({
+    formState: { errors, isSubmitted },
+    handleSubmit
+  } = useForm<LogPresetTypes>({
     defaultValues: {
       dogCount: 1,
       dogName: 'Oreo',
@@ -26,6 +28,23 @@ export const WalkLogPreset: React.FC = () =>  {
       notes: ''
     }
   })
+
+  const [messageApi, contextHolder] = message.useMessage()
+
+  // Check if there's any errors
+  useEffect(() => {
+    if(Object.keys(errors).length > 0 && isSubmitted) {
+      messageApi.open({
+        type: 'error',
+        content: 'Validation Error. Check your inputs.',
+      })
+    }
+  }, [errors, isSubmitted])
+
+  const onSubmit = (data: LogPresetTypes): void => {
+    const processedData = generatePresetArray(data)
+    console.log(processedData)
+  }
 
   return (
   <>
@@ -74,7 +93,7 @@ export const WalkLogPreset: React.FC = () =>  {
             </Popover>
           </Space.Compact>
           <Space.Compact className={styles.inputContainer}>
-            <p className={styles.inputLabel}>Walk Distance:</p>
+            <p className={styles.inputLabel}>*Walk Distance:</p>
             <Popover
               title="This field is required"
               open={!!errors.walkDistance}
@@ -101,8 +120,8 @@ export const WalkLogPreset: React.FC = () =>  {
                 style={{ margin: 'auto'}}
                 allowClear={false}
                 onChange={(value) => {
-                setValue('rating', value)
-              }}/>
+                  setValue('rating', value)
+                }}/>
             </div>
           </Space.Compact>
           <Space.Compact >
@@ -115,18 +134,19 @@ export const WalkLogPreset: React.FC = () =>  {
               ></textarea>
           </Space.Compact>
         </Card>
-        <button hidden={true} type="submit" />
+        <Button type="primary"
+          onClick={handleSubmit(onSubmit)}
+          size='large'
+          block
+          style={{
+            fontWeight: 'bold',
+            marginTop: '24px'
+          }}
+        >
+          Submit
+        </Button>
       </form>
     </Space>
-    <Button type="primary"
-      size='large'
-      block
-      style={{
-        fontWeight: 'bold',
-        marginTop: '24px'
-      }}
-    >
-      Submit
-    </Button>
+    {contextHolder}
   </>
   )}

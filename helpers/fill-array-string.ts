@@ -14,8 +14,6 @@ export const fillArrayString: FillArrayStringTypes = ({
   const additionalElementsCount = maxCount - array.length
   const splicedArray = array.slice(0, maxCount)
 
-  console.log('splicedArray', splicedArray)
-
   // if filler is not specified, use the last value of the filler
   const defaultFiller = array.length > 0 && !filler ? array.at(-1) : 'Value'
 
