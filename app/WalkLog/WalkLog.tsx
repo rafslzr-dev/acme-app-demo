@@ -65,6 +65,7 @@ export const WalkLog: React.FC<WalkLogProps> = ({
           formTitle={`Walk Log #${index + 1}`}
           callSubmit={state.callSubmit}
           defaultValues={formPresets && formPresets[index]}
+          disableDelete={state.formIds.length <= 1}
           onDelete={() => {
             dispatch({
               type: 'REMOVE_FORM_ID',

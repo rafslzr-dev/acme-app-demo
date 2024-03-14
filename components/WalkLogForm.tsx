@@ -19,6 +19,7 @@ interface WalkLogFormProps {
   setData: (data: WalkLogFormInputTypes) => void
   onDelete: () => void
   defaultValues?: WalkLogFormInputTypes
+  disableDelete?: boolean
 }
 
 export const WalkLogForm: React.FC<WalkLogFormProps> = ({
@@ -27,7 +28,8 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
   onError = () => {},
   onDelete = () => {},
   setData,
-  defaultValues
+  defaultValues,
+  disableDelete
 }) =>  {
 
   const {
@@ -72,6 +74,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
                 icon={<DeleteOutlined />}
                 danger
                 onClick={onDelete}
+                disabled={disableDelete}
                 />
             </Tooltip>
         }>
