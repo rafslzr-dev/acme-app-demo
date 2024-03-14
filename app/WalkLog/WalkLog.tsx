@@ -1,8 +1,8 @@
 import { AppLayout } from '@/components'
 import styles from './WalkLog.module.scss'
 import { WalkLogForm, WalkLogFormInputTypes } from '@/components'
-import { Button, message } from 'antd'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { Button, Space, message, Tooltip } from 'antd'
+import { PlusCircleOutlined, ArrowLeftOutlined } from '@ant-design/icons'
 import { useEffect  } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
@@ -43,7 +43,22 @@ export const WalkLog: React.FC<WalkLogProps> = ({
 
   return (
     <AppLayout>
-      <h2 className={styles.greetings}>Log your walks here:</h2>
+      <Space>
+        <Tooltip title="Go Back to Homepage">
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<ArrowLeftOutlined />}
+            size='large'
+            onClick={() => router.push('/')}
+            />
+        </Tooltip>
+        <h2 className={styles.greetings}>Log your walks here:</h2>
+      </Space>
+      <h3>Tips: </h3>
+      <ul className='ulist'>
+        <li><b>All fields with asterisks (*) are required.</b></li>
+      </ul>
       {state.formIds.map((id, index) =>
         <WalkLogForm
           key={id}

@@ -29,6 +29,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
   setData,
   defaultValues
 }) =>  {
+
   const {
     register,
     handleSubmit,
@@ -59,7 +60,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
     if (isSubmitted && !isValid) {
       onError(errors)
     }
-  }, [isSubmitted, isValid, errors, onError])
+  }, [isSubmitted, isValid])
 
   return (
   <Space direction="vertical" className={styles.container} >
@@ -75,7 +76,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
             </Tooltip>
         }>
         <Space.Compact className={styles.inputContainer}>
-          <p className={styles.inputLabel}>Dog Name:</p>
+          <p className={styles.inputLabel}>*Dog Name:</p>
           <Popover
             title="This field is required"
             open={!!errors.dogName}
@@ -94,7 +95,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
           </Popover>
         </Space.Compact>
         <Space.Compact className={styles.inputContainer}>
-          <p className={styles.inputLabel}>Walk Distance:</p>
+          <p className={styles.inputLabel}>*Walk Distance:</p>
           <Popover
             title="This field is required"
             open={!!errors.walkDistance}
@@ -117,12 +118,12 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
           <p className={styles.inputLabel}>Walk Rating:</p>
           <div className={styles.ratingContainer}>
             <Rate
-              defaultValue={3}
+              defaultValue={defaultValues?.rating || 3}
               style={{ margin: 'auto'}}
               allowClear={false}
               onChange={(value) => {
-              setValue('rating', value)
-            }}/>
+                setValue('rating', value)
+              }}/>
           </div>
         </Space.Compact>
         <Space.Compact >

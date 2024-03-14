@@ -42,7 +42,7 @@ export const WalkLogPreset: React.FC = () =>  {
         content: 'Validation Error. Check your inputs.',
       })
     }
-  }, [isValid, isSubmitted, messageApi])
+  }, [isValid, isSubmitted])
 
   const onSubmit = (data: LogPresetTypes): void => {
     const generatedPreset = generatePresetArray(data)
