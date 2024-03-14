@@ -4,6 +4,8 @@ import styles from '@/styles/components/WalkLogForm.module.scss'
 import classNames from 'classnames';
 import { useForm } from "react-hook-form"
 import { generatePresetArray } from '../helpers/generate-preset-array'
+import { useRouter } from "next/router";
+import { separateByCommas } from '@/helpers'
 
 export type LogPresetTypes = {
   dogCount: number
@@ -17,7 +19,7 @@ export const WalkLogPreset: React.FC = () =>  {
   const {
     register,
     setValue,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, isValid },
     handleSubmit
   } = useForm<LogPresetTypes>({
     defaultValues: {
@@ -30,33 +32,54 @@ export const WalkLogPreset: React.FC = () =>  {
   })
 
   const [messageApi, contextHolder] = message.useMessage()
+  const router = useRouter()
 
   // Check if there's any errors
   useEffect(() => {
-    if(Object.keys(errors).length > 0 && isSubmitted) {
+    if(!isValid && isSubmitted) {
       messageApi.open({
         type: 'error',
         content: 'Validation Error. Check your inputs.',
       })
     }
-  }, [errors, isSubmitted])
+  }, [isValid, isSubmitted])
 
   const onSubmit = (data: LogPresetTypes): void => {
-    const processedData = generatePresetArray(data)
-    console.log(processedData)
+    const generatedPreset = generatePresetArray(data)
+    messageApi.open({
+      type: 'success',
+      content: 'Success!',
+    })
+
+    router.push({
+      pathname: '/walk-log',
+      query: {
+        dogCount: data.dogCount,
+        preset: JSON.stringify(generatedPreset)
+      }
+    })
+
   }
 
   return (
   <>
     <Space direction="vertical" className={styles.container} >
-    <h2 className={styles.greetings}>Generate Log Forms Preset</h2>
+      <h2 className={styles.greetings}>Generate Log Forms Preset</h2>
+      <h3>Tips: </h3>
+      <ul className='ulist'>
+        <li><b>All fields with asterisks (*) are required.</b></li>
+        <li><b>Dog Name</b> and <b>Walk Distance</b>can be separated by commas <b>(Name1, Name2...)</b>.</li>
+        <li>You can generate multiple forms with different values by comma separations.</li>
+        <li>When received separated values that are less than <b>Dog Count</b>, it will generate a filler automatically based on the last value.</li>
+        <li><b>Dog Count</b> will be prioritized over the length of the separated names/distance.</li>
+      </ul>
       <form >
         <Card >
           <Space.Compact className={styles.inputContainer}>
             <p className={styles.inputLabel}>*Dog Count</p>
             <Popover
-              title="This field is required"
-              open={!!errors.walkDistance}
+              title="This field is required. Only accepts 1-10"
+              open={!!errors.dogCount}
               placement='right'
               trigger='focus'
             >
@@ -68,6 +91,8 @@ export const WalkLogPreset: React.FC = () =>  {
                   maxWidth: '160px'
                 }}
                 {...register('dogCount', {
+                  min: 1,
+                  max: 10,
                   required: true
                 })}
               />
@@ -95,7 +120,7 @@ export const WalkLogPreset: React.FC = () =>  {
           <Space.Compact className={styles.inputContainer}>
             <p className={styles.inputLabel}>*Walk Distance:</p>
             <Popover
-              title="This field is required"
+              title="This field is required. Only accepts valid numeral values and commas"
               open={!!errors.walkDistance}
               placement='right'
               trigger='focus'
@@ -107,7 +132,13 @@ export const WalkLogPreset: React.FC = () =>  {
                 style={{
                   maxWidth: '160px'
                 }}
-                {...register('walkDistance')}
+                {...register('walkDistance', {
+                  required: true,
+                  validate: (value) =>
+                    separateByCommas(value).reduce<boolean>(
+                      (_, val) => /^\d+$/g.test(val),
+                      true)
+                })}
               />
             </Popover>
             <p className={styles.inputSuffix}>meters</p>

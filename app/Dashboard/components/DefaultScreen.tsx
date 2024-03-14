@@ -23,9 +23,12 @@ export const DefaultScreen: React.FC = () => {
   const router = useRouter()
 
   const onSubmit: SubmitHandler<InputsTypes> = (data): void => {
-    router.push({pathname: '/walk-log', query: {
-      dogCount: data.dogCount
-    }})
+    router.push({
+      pathname: '/walk-log',
+      query: {
+        dogCount: data.dogCount
+      }
+    })
   }
 
   return <>
