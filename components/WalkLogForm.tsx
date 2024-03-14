@@ -18,6 +18,7 @@ interface WalkLogFormProps {
   onError: (error: FieldErrors<WalkLogFormInputTypes>) => void
   setData: (data: WalkLogFormInputTypes) => void
   onDelete: () => void
+  defaultValues?: WalkLogFormInputTypes
 }
 
 export const WalkLogForm: React.FC<WalkLogFormProps> = ({
@@ -25,7 +26,8 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
   callSubmit = false,
   onError = () => {},
   onDelete = () => {},
-  setData
+  setData,
+  defaultValues
 }) =>  {
   const {
     register,
@@ -33,7 +35,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
     setValue,
     formState: { errors, isValid, isSubmitted }
   } = useForm<WalkLogFormInputTypes>({
-    defaultValues: {
+    defaultValues: defaultValues || {
       dogName: 'Oreo',
       walkDistance: 200,
       rating: 3,
@@ -57,7 +59,7 @@ export const WalkLogForm: React.FC<WalkLogFormProps> = ({
     if (isSubmitted && !isValid) {
       onError(errors)
     }
-  }, [isSubmitted, isValid])
+  }, [isSubmitted, isValid, errors, onError])
 
   return (
   <Space direction="vertical" className={styles.container} >

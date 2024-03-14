@@ -42,7 +42,7 @@ export const WalkLogPreset: React.FC = () =>  {
         content: 'Validation Error. Check your inputs.',
       })
     }
-  }, [isValid, isSubmitted])
+  }, [isValid, isSubmitted, messageApi])
 
   const onSubmit = (data: LogPresetTypes): void => {
     const generatedPreset = generatePresetArray(data)
@@ -58,7 +58,6 @@ export const WalkLogPreset: React.FC = () =>  {
         preset: JSON.stringify(generatedPreset)
       }
     })
-
   }
 
   return (
@@ -68,7 +67,7 @@ export const WalkLogPreset: React.FC = () =>  {
       <h3>Tips: </h3>
       <ul className='ulist'>
         <li><b>All fields with asterisks (*) are required.</b></li>
-        <li><b>Dog Name</b> and <b>Walk Distance</b>can be separated by commas <b>(Name1, Name2...)</b>.</li>
+        <li><b>Dog Name</b> and <b>Walk Distance</b> can be separated by commas <b>(Name1, Name2...)</b>.</li>
         <li>You can generate multiple forms with different values by comma separations.</li>
         <li>When received separated values that are less than <b>Dog Count</b>, it will generate a filler automatically based on the last value.</li>
         <li><b>Dog Count</b> will be prioritized over the length of the separated names/distance.</li>

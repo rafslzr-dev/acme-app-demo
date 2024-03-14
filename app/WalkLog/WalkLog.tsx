@@ -1,6 +1,6 @@
 import { AppLayout } from '@/components'
 import styles from './WalkLog.module.scss'
-import { WalkLogForm } from '@/components'
+import { WalkLogForm, WalkLogFormInputTypes } from '@/components'
 import { Button, message } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { useEffect  } from 'react'
@@ -9,12 +9,14 @@ import { useRouter } from 'next/router'
 import { useLogReducer } from './hooks/use-log-reducer'
 
 interface WalkLogProps {
-  generateFormCount: number
+  generateFormCount: number,
+  formPresets?: WalkLogFormInputTypes[]
 }
 
 
 export const WalkLog: React.FC<WalkLogProps> = ({
-  generateFormCount = 1
+  generateFormCount = 1,
+  formPresets
 }) => {
   const [state, dispatch] = useLogReducer()
 
@@ -47,6 +49,7 @@ export const WalkLog: React.FC<WalkLogProps> = ({
           key={id}
           formTitle={`Walk Log #${index + 1}`}
           callSubmit={state.callSubmit}
+          defaultValues={formPresets && formPresets[index]}
           onDelete={() => {
             dispatch({
               type: 'REMOVE_FORM_ID',

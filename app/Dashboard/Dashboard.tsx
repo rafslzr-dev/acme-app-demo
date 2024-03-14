@@ -5,7 +5,6 @@ import { Space, Segmented } from 'antd'
 import styles from './Dashboard.module.scss'
 
 export const Dashboard: React.FC = () => {
-  // const [showAdvancedScreen, setShowAdvancedScreen] = useState(false)
   const [advancedOption, setAdvancedOption] = useState<string>('Default');
 
   return (
