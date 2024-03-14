@@ -50,7 +50,7 @@ export const WalkLog: React.FC<WalkLogProps> = ({
             shape="circle"
             icon={<ArrowLeftOutlined />}
             size='large'
-            onClick={() => router.push('/')}
+            onClick={() => router.back()}
             />
         </Tooltip>
         <h2 className={styles.greetings}>Log your walks here:</h2>
