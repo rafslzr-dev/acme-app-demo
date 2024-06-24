@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Replace .npmrc content
-        run: cat ~/ci.npmrc > .npmrc
+        run: cat ${{ github.workspace }}/ci.npmrc > ${{ github.workspace }}/.npmrc
       - name: Detect package manager
         id: detect-package-manager
         run: |
