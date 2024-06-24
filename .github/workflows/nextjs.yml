@@ -31,8 +31,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Replace .npmrc content
-        run: cat ${{ github.workspace }}/ci.npmrc > ${{ github.workspace }}/.npmrc
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -50,6 +48,8 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
+      - name: Authenticate with GitHub Package Registry
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
