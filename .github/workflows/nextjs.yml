@@ -73,8 +73,8 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       # - name: Authenticate with private NPM package
       #   run: echo "@rafslzr-dev:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=${{ secrets.GH_NPM_TOKEN }}" > ~/.npmrc
-      - name: Authenticate with private NPM package
-        run: echo -e "\n//npm.pkg.github.com/:_authToken=${{ vars.GH_NPM_TOKEN }}" >> ~/.npmrc
+      # - name: Authenticate with private NPM package
+      #   run: echo -e "\n//npm.pkg.github.com/:_authToken=${{ vars.GH_NPM_TOKEN }}" >> ~/.npmrc
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
